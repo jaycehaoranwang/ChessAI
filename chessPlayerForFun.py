@@ -11,9 +11,6 @@ chessBoard=[13,11,12,15,14,12,11,13,
             20,20,20,20,20,20,20,20,
             23,21,22,25,24,22,21,23]
 
-
-#[13, 0, 12, 14, 15, 12, 11, 13, 10, 10, 10, 10, 10, 10, 10, 10, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 20, 20, 20, 20, 20, 20, 20, 23, 21, 22, 24, 25, 22, 21, 23]
-
 #Vanilla Board:
 #           [13,11,12,14,15,12,11,13,
 #            10,10,10,10,10,10,10,10,
@@ -23,7 +20,16 @@ chessBoard=[13,11,12,15,14,12,11,13,
 #            0,0,0,0,0,0,0,0,
 #            20,20,20,20,20,20,20,20,
 #            23,21,22,24,25,22,21,23]
+
+'''
+This program utilizes logic and data structures to create an AI that can play EZ Chess at a casual level.
+EZ Chess is a version of chess where Castling, En Passant, and pawns moving two squares on their first move is not allowed. This program does not utilize any neural networks and instead implements a pruning algorithm to more efficiently brute-force its way through the game tree and find the best possible move for the specified depth of the game tree. 
+'''
 def GetPlayerPositions(board,player):
+    '''
+    Returns a list of the positions of each piece of the specified player if they are on the board
+    
+    '''
     cBoard=list(board)
     posList=[]
     if player==10:
@@ -62,6 +68,9 @@ def GetPieceLegalMoves(board, position):
     elif cBoard[pos]==15 or cBoard[pos]==25:
         return king(cBoard,pos)
 
+'''
+All functions frmo here that correspond to the name of a chess piece are used to calculate the legal moves that the specified piece is allowed to make at any given time on the board
+'''
 
 def rook(board,pos):
     cBoard=list(board)
@@ -976,6 +985,9 @@ def king(board,pos):
     return legalList
 
 def IsPositionUnderThreat(board,position,player):
+    '''
+    Calculates whether the given position is under threat by the opposing player
+    '''
     threatenedPos=position
     whiteOppBool=True
     # If player is black, then the opponent is white, else opponent is black
@@ -1002,6 +1014,10 @@ def IsPositionUnderThreat(board,position,player):
         return False
 
 def evaluateBoard(board):
+    '''
+    Logical function used to compute the strength/how favourable a given board position/state is and returns a float score based on who the current board position is favouring
+    
+    '''
     kingW=0
     kingB=0
     knightW=0
@@ -1065,6 +1081,10 @@ def evaluateBoard(board):
 
 
 def allLegalMoves(board,player):
+    '''
+    Returns a list of all the possible legal moves that the given player can make at the given board state
+    
+    '''
     whitePlayer=True
     moveList=[]
     # If player is black, then the opponent is white, else opponent is black
@@ -1085,6 +1105,10 @@ def allLegalMoves(board,player):
 
 
 def makeGameTree(makeGameBoard,depth,player):
+    '''
+    Creates the general tree that will be uesd to evaluate the best possible move at any given board state. Each node within the tree stores the board state after a candidate move has been made, a 2-list of the move made [from,to], and the score of that board and returns the tree
+    
+    '''
     argDepth=depth
     if player==10:
         whiteTurn=True
@@ -1095,6 +1119,9 @@ def makeGameTree(makeGameBoard,depth,player):
     return initTree
 
 def makeGameTreeHelp(argBoard, argTree, depth, turnBool):
+    '''
+    The helper function required to recursively insert nodes into the game tree depth-first
+    '''
     if depth == 0:
         return True
     else:
@@ -1192,6 +1219,7 @@ def findMove(gameTree,scoreToFind):
     for i in gameTree.getFirstLevel():
         if i[1]==scoreToFind:
             moveList+=[i[0][1]]
+    #Randomly picks a move if multiple moves have the same score (WILL NEED UPDATING/UPGRADE THE EVALUATOR FUNCTION)
     randMove=random.randint(0,len(moveList)-1)
     #print('moveList:')
     #print(moveList)
@@ -1261,6 +1289,8 @@ def print_board(board):
     print (" "+row_0)
     return True
 
+# Function for playing Chess against the program
+
 def playChess(board):
     gamePlay=True
     sideInput=True
@@ -1290,6 +1320,7 @@ def playChess(board):
     if player==10:
         while gamePlay:
             
+            print_board(board)
             start=time.time()
             newTree=makeGameTree(board,4,player)
             score=minimax(newTree,4,whiteBool,-float("inf"),float("inf"))
@@ -1302,18 +1333,15 @@ def playChess(board):
             board[moveMade[1]]=board[moveMade[0]]
             board[moveMade[0]]=0 
             
-          #  print_board(board)
+            print_board(board)       
             
             humanPlayer(board)
-          #  print_board(board)
             
     else:
         while gamePlay:
-            
+            print_board(board)
             humanPlayer(board)
-            
-          #  print_board(board)
-            
+            print_board(board)            
             start=time.time()
             newTree=makeGameTree(board,4,player)
             score=minimax(newTree,4,whiteBool,-float("inf"),float("inf"))
@@ -1325,7 +1353,6 @@ def playChess(board):
             print(str(moveMade[0])+' '+str(moveMade[1]))
             board[moveMade[1]]=board[moveMade[0]]
             board[moveMade[0]]=0 
-         #   print_board(board)
     return True
 
 def humanPlayer(boardState):
@@ -1350,6 +1377,8 @@ def aiPlayer(board,side,sideBool):
     board[moveMade[0]]=0  
     
     return board
+
+# Function to setup a game where the program plays itself
 
 def ai_VS_ai(board):
     while True:
