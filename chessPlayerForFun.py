@@ -23,7 +23,9 @@ chessBoard=[13,11,12,15,14,12,11,13,
 
 '''
 This program utilizes logic and data structures to create an AI that can play EZ Chess at a casual level.
-EZ Chess is a version of chess where Castling, En Passant, and pawns moving two squares on their first move is not allowed. This program does not utilize any neural networks and instead implements a pruning algorithm to more efficiently brute-force its way through the game tree and find the best possible move for the specified depth of the game tree. 
+EZ Chess is a version of chess where Castling, En Passant, and pawns moving two squares on their first move is not allowed. 
+This program does not utilize any neural networks and instead implements a pruning algorithm to more efficiently brute-force 
+its way through the game tree and find the best possible move for the specified depth of the game tree. 
 '''
 def GetPlayerPositions(board,player):
     '''
@@ -69,7 +71,8 @@ def GetPieceLegalMoves(board, position):
         return king(cBoard,pos)
 
 '''
-All functions frmo here that correspond to the name of a chess piece are used to calculate the legal moves that the specified piece is allowed to make at any given time on the board
+All functions frmo here that correspond to the name of a chess piece are used to calculate the legal moves that the specified 
+piece is allowed to make at any given time on the board
 '''
 
 def rook(board,pos):
