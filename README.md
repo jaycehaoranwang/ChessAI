@@ -2,8 +2,7 @@
 This is a basic Chess AI that utilizes a variety of data structures to help make decisions and prune the game tree of possible moves
 in order to determine which move is the best for the AI given any board state. 
 
-This program can be written more efficiently with more classes but the original contraint that motivated this project forced me to 
-write this program in this way.
+This program can be written more efficiently with more classes and data structures but the original contraint from the course that motivated this project imposed the writing of this program in this way.
 
 Communication to and from the program is done through board indices according to the chessboard indices picture provided. All moves are 
 given in the format of (index of piece being moved)(space)(index of the space the piece is being moved to).
